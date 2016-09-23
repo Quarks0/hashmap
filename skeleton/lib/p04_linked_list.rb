@@ -80,6 +80,10 @@ class LinkedList
     current_link = first
 
     until current_link == @tail
+      if key == current_link.key
+        current_link.val = val
+        break
+      end
       unless new_link.val < current_link.val
         current_link = current_link.next
       end
@@ -104,7 +108,7 @@ class LinkedList
     current_link = first
 
     until current_link == @tail
-      prc.call(current_link)
+      prc.call(current_link.key, current_link.val)
       current_link = current_link.next
     end
 
