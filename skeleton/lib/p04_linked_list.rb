@@ -14,6 +14,8 @@ class Link
 end
 
 class LinkedList
+  include Enumerable
+
   def initialize
     @head = Link.new
     @tail = Link.new
@@ -42,7 +44,18 @@ class LinkedList
   def get(key)
     current_link = first
 
-    while current_link.next != @tail
+    until current_link == @tail
+      return current_link.val if current_link.key == key
+      current_link = current_link.next
+    end
+
+    nil
+  end
+
+  def get_link(key)
+    current_link = first
+
+    until current_link == @tail
       return current_link if current_link.key == key
       current_link = current_link.next
     end
@@ -53,7 +66,7 @@ class LinkedList
   def include?(key)
     current_link = first
 
-    while current_link.next != @tail
+    while current_link != @tail
       return true if current_link.key == key
       current_link = current_link.next
     end
@@ -66,8 +79,10 @@ class LinkedList
 
     current_link = first
 
-    until new_link.key < current_link.key
-      current_link = current_link.next
+    until current_link == @tail
+      unless new_link.val < current_link.val
+        current_link = current_link.next
+      end
     end
 
     new_prev = current_link.prev
@@ -79,13 +94,19 @@ class LinkedList
   end
 
   def remove(key)
-    delete_link = get(key)
+    delete_link = get_link(key)
 
     delete_link.prev.next = delete_link.next
     delete_link.next.prev = delete_link.prev
   end
 
-  def each
+  def each(&prc)
+    current_link = first
+
+    until current_link == @tail
+      prc.call(current_link)
+      current_link = current_link.next
+    end
 
   end
 
