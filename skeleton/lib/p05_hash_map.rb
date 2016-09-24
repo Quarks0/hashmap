@@ -16,12 +16,15 @@ class HashMap
 
   def set(key, val)
     resize! if @count >= num_buckets
-    bucket(key).insert(key,val)
-    @count +=1
+    @count += 1 if bucket(key).insert(key,val)
   end
 
   def get(key)
     bucket(key).get(key)
+  end
+
+  def get_link(key)
+    bucket(key).get_link(key)
   end
 
   def delete(key)

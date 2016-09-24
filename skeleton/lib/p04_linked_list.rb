@@ -1,3 +1,4 @@
+require 'byebug'
 class Link
   attr_accessor :key, :val, :next, :prev
 
@@ -82,8 +83,9 @@ class LinkedList
     until current_link == @tail
       if key == current_link.key
         current_link.val = val
-        break
+        return false
       end
+      debugger
       unless new_link.val < current_link.val
         current_link = current_link.next
       end
@@ -95,6 +97,8 @@ class LinkedList
 
     new_link.prev = new_prev
     new_link.next = current_link
+
+    return true
   end
 
   def remove(key)
